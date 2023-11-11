@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+   <changeSet id="Creating users" author="Dilxevia">
+        <createTable tableName="users">
+            <column autoIncrement="true" name="userid" type="int">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="surname" type="varchar(50)">
+                <constraints nullable="false" />
+            </column>
+            <column name="name" type="varchar(50)">
+                <constraints nullable="false" />
+            </column>
+            <column name="gender" type="varchar(50)">
+                <constraints nullable="false" />
+            </column>
+            <column name="email" type="varchar(50)">
+                <constraints nullable="false" />
+            </column>
+            <column name="password" type="varchar(256)">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="Creating author" author="Dilxevia">
+        <createTable tableName="authors">
+            <column autoIncrement="true" name="author_id" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="first_name" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="Creating books" author="Dilxevia">
+        <createTable tableName="books">
+            <column autoIncrement="true" name="book_id" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="author_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="published_year" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="add-fk-between-authors-and-books" author="Dilxevia">
+        <addForeignKeyConstraint
+                baseTableName="books"
+                baseColumnNames="author_id"
+                constraintName="fk_book_author"
+                referencedTableName="authors"
+                referencedColumnNames="author_id"
+                onDelete="CASCADE"
+                onUpdate="CASCADE"
+        />
+    </changeSet>
+
+    <changeSet id="tag-1.0" author="Dilxevia">
+        <tagDatabase tag="1.0" />
+    </changeSet>
+</databaseChangeLog>
