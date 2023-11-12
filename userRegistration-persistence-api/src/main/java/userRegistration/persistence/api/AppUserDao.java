@@ -5,5 +5,5 @@ import userRegistration.domain.AppUser;
 public interface AppUserDao {
 
     AppUser create(AppUser user);
-
+    AppUser getByEmail(String email);
 }

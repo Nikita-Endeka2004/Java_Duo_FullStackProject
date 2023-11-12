@@ -7,8 +7,10 @@ import userRegistration.persistence.in.mariadb.AppUserDaoImpl;
 import userRegistration.persistence.in.mariadb.DBManager;
 import userRegistration.services.converter.AppUserConverter;
 import userRegistration.persistence.in.mariadb.config.PropertiesManager;
+import userRegistration.services.exceptions.ValidationException;
 import userRegistration.services.validator.UserValidator;
 import userRegistration.services.validator.UserValidatorImpl;
+import userRegistration.services_api.SecurityService;
 import userRegistration.services_api.UserService;
 
 import java.sql.Connection;
@@ -17,6 +19,7 @@ import java.sql.SQLException;
 public class UserServiceImpl implements UserService {
     private PropertiesManager propertiesManager = new PropertiesManager();
     private UserValidator userValidator = new UserValidatorImpl();
+    private SecurityService securityService = new SecurityServiceImpl();
 
     @Override
     public AppUserViewDto registerUser(AppUserCreateDto createDto) {
@@ -34,5 +37,23 @@ public class UserServiceImpl implements UserService {
             e.printStackTrace();
         }
         return appUserViewDto;
+    }
+
+    @Override
+    public AppUserViewDto login(String email, String password) {
+        AppUser user = null;
+        userValidator.validateUserCredentials(email, password);
+        try (Connection connection = DBManager.getConnection(propertiesManager.getApplicationProperties())) {
+            AppUserDaoImpl appUserDao = new AppUserDaoImpl();
+            appUserDao.setConnection(connection);
+            user = appUserDao.getByEmail(email);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if (!securityService.isCorrectPassword(user, password)) {
+            throw new ValidationException("Wrong password");
+        }
+        AppUserConverter appUserConverter = new AppUserConverter();
+        return appUserConverter.asUserDto(user);
     }
 }
