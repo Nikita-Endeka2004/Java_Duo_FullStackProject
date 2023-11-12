@@ -20,4 +20,10 @@
         <servlet-name>register</servlet-name>
         <url-pattern>/register</url-pattern>
     </servlet-mapping>
+
+    <error-page>
+        <exception-type>userRegistration.services.exceptions.ValidationException</exception-type>
+        <location>/validation_error.jsp</location>
+    </error-page>
+
 </web-app>

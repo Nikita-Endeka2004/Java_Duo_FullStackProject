@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 
 <%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="/WEB-INF/tag/hello.tld" prefix="custom" %>
 
 <html lang="en">
 <head>
@@ -9,7 +11,8 @@
     <title>Main Page</title>
 </head>
 <body>
-<h2>Hello user</h2>
+<h2>Hello <c:out value="${user.name}" default="user" />!</h2>
+<custom:hello name="${user.name}" />
 
 <p>Today: <%=java.util.Calendar.getInstance().getTime()%></p>
 <h3>Go to Registration</h3>
