@@ -14,13 +14,13 @@
 <h2>Hello <c:out value="${user.name}" default="user" />!</h2>
 <custom:hello name="${user.name}" />
 
-<form action="/userRegistration/login" method="post" />
+<form action="/userRegistration/login" method="POST">
 <label for="exampleInputEmail">Email</label>
 <input name="email" type="email" id="exampleInputEmail" placeholder="Input email">
 <label for="exampleInputPassword">Password</label>
 <input name="password" type="password" id="exampleInputPassword" placeholder="Input password">
 <button type="submit">Login</button>
-
+</form>
 <p>Today: <%=java.util.Calendar.getInstance().getTime()%></p>
 <h3>Go to Registration</h3>
 <form action="register" method="GET">

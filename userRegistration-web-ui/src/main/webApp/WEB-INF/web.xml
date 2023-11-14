@@ -25,5 +25,18 @@
         <exception-type>userRegistration.services.exceptions.ValidationException</exception-type>
         <location>/validation_error.jsp</location>
     </error-page>
+    
+    <error-page>
+        <exception-type>userRegistration.persistence.in.mariadb.exceptions.AlreadyRegisteredException</exception-type>
+        <location>/already_error.jsp</location>
+    </error-page>
+    <filter>
+        <filter-name>loggingFilter</filter-name>
+        <filter-class>userRegistration.web.ui.filter.LoggingFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>loggingFilter</filter-name>
+        <url-pattern>*</url-pattern>
+    </filter-mapping>
 
 </web-app>
