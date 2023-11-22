@@ -71,6 +71,26 @@ public class AuthorCRUD <T extends Author> implements CRUD <T> {
         }
         return author;
     }
+    private static final String READ_AUTHORS_QUERY = "select * from authors";
+    @Override
+    public Collection<T> read(){
+        Collection <T> authorCollection = new ArrayList();
+        try (
+                Statement statement = connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery(READ_AUTHORS_QUERY);
+            while(resultSet.next()){
+                T author = (T) new Author();
+                author.setAuthorId(resultSet.getLong("author_id"));
+                author.setFirstName(resultSet.getString("first_name"));
+                author.setLastName(resultSet.getString("last_name"));
+                authorCollection.add(author);
+            }
+        } catch (Exception e) {
+            System.err.println("There was a problem to read author from the database");
+            e.printStackTrace();
+        }
+        return  authorCollection;
+    }
     private static final String UPDATE_AUTHOR_QUERY = "update authors set first_name = ?, last_name = ? where author_id = ?";
     @Override
     public void update(T author){

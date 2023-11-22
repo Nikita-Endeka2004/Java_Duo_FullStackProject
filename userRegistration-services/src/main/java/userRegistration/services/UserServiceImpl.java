@@ -20,13 +20,13 @@ public class UserServiceImpl implements UserService {
     private PropertiesManager propertiesManager = new PropertiesManager();
     private UserValidator userValidator = new UserValidatorImpl();
     private SecurityService securityService = new SecurityServiceImpl();
+    private AppUserDaoImpl appUserDao = new AppUserDaoImpl();
 
     @Override
     public AppUserViewDto registerUser(AppUserCreateDto createDto) {
         AppUserViewDto appUserViewDto = new AppUserViewDto();
         try (Connection connection = DBManager.getConnection(propertiesManager.getApplicationProperties());
         ) {
-            AppUserDaoImpl appUserDao = new AppUserDaoImpl();
             appUserDao.setConnection(connection);
             AppUserConverter appUserConverter = new AppUserConverter();
             userValidator.validateNewUser(createDto);
@@ -44,7 +44,6 @@ public class UserServiceImpl implements UserService {
         AppUser user = null;
         userValidator.validateUserCredentials(email, password);
         try (Connection connection = DBManager.getConnection(propertiesManager.getApplicationProperties())) {
-            AppUserDaoImpl appUserDao = new AppUserDaoImpl();
             appUserDao.setConnection(connection);
             user = appUserDao.getByEmail(email);
         } catch (SQLException e) {

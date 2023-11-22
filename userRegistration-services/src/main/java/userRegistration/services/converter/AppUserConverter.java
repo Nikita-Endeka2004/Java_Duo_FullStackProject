@@ -16,6 +16,7 @@ public class AppUserConverter {
     }
     public AppUser asAppUser(AppUserCreateDto createDto){
         AppUser user = new AppUser();
+        user.setId(1L);
         user.setEmail(createDto.getEmail());
         user.setPassword(createDto.getPassword());
         user.setName(createDto.getName());

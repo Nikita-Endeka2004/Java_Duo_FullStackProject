@@ -54,7 +54,7 @@ public class BookCRUD <T extends Book> implements CRUD<T> {
         }
         return bookCollection;
     }
-    private static final String READ_BOOK_QUERY = "select * from book where book_id = '%d'";
+    private static final String READ_BOOK_QUERY = "select * from books where book_id = '%d'";
     @Override
     public T read(int id){
         T book = null;
@@ -66,14 +66,38 @@ public class BookCRUD <T extends Book> implements CRUD<T> {
                 book = (T) new Book();
                 book.setBookId(resultSet.getLong("book_id"));
                 book.setTitle(resultSet.getString("title"));
+                book.setAuthorId((int) resultSet.getLong("author_id"));
                 book.setPublicationYear(resultSet.getInt("published_year"));
-                book.setAuthorId(resultSet.getInt("author_id"));
             }
         }catch (Exception e){
             System.err.println("There was a problem to read book from the database");
             e.printStackTrace();
         }
+        if(book== null){
+            System.err.println("Author not found by id: " + id);
+        }
         return book;
+    }
+    private static final String READ_BOOKS_QUERY = "select * from books";
+    @Override
+    public Collection <T> read(){
+        Collection <T> bookCollection = new ArrayList<>();
+        try (
+                Statement statement = connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery(READ_BOOKS_QUERY);
+            while (resultSet.next()) {
+                T book = (T) new Book();
+                book.setBookId(resultSet.getLong("book_id"));
+                book.setTitle(resultSet.getString("title"));
+                book.setAuthorId((int) resultSet.getLong("author_id"));
+                book.setPublicationYear(resultSet.getInt("published_year"));
+                bookCollection.add(book);
+            }
+        } catch (Exception e) {
+            System.err.println("There was a problem to read book from the database");
+            e.printStackTrace();
+        }
+        return bookCollection;
     }
     private static final String UPDATE_BOOK_QUERY = "update authors set title = ?, published_year = ? where book_id = ?";
     @Override

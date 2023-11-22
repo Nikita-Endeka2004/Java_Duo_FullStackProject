@@ -21,11 +21,13 @@ public class AppUserViewDto implements Serializable {
     private  String surname;
     private String gender;
     private String email;
+
     public AppUserViewDto(){
         
     }
 
-    public AppUserViewDto(String name, String surname, String gender, String email) {
+    public AppUserViewDto(Long id, String name, String surname, String gender, String email) {
+        this.id = id;
         this.name = name;
         this.surname = surname;
         this.gender = gender;

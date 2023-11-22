@@ -56,6 +56,36 @@
             </column>
         </createTable>
     </changeSet>
+    <changeSet author="Dilxevia" id="adding authors">
+        <insert catalogName="webusers"
+                tableName="authors">
+            <column name="author_id" type="int">1</column>
+            <column name="first_name" type="varchar(50)">Carl</column>
+            <column name="last_name" type="varchar(50)">Popper</column>
+        </insert>
+        <insert catalogName="webusers"
+                tableName="authors">
+            <column name="author_id" type="int">2</column>
+            <column name="first_name" type="varchar(50)">Claude</column>
+            <column name="last_name" type="varchar(50)">Shannon</column>
+        </insert>
+    </changeSet>
+    <changeSet author="Dilxevia" id="adding books">
+        <insert catalogName="webusers"
+                tableName="books">
+            <column name="book_id" type="int">1</column>
+            <column name="title" type="varchar(50)">The Open Society and Its Enemies</column>
+            <column name="author_id" type="int">1</column>
+            <column name="published_year" type="int">1945</column>
+        </insert>
+        <insert catalogName="webusers"
+                tableName="books">
+            <column name="book_id" type="int">2</column>
+            <column name="title" type="varchar(50)">Communication Theory of Secrecy Systems</column>
+            <column name="author_id" type="int">2</column>
+            <column name="published_year" type="int">1949</column>
+        </insert>
+    </changeSet>
     <changeSet id="add-fk-between-authors-and-books" author="Dilxevia">
         <addForeignKeyConstraint
                 baseTableName="books"
